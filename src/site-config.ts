@@ -1,6 +1,6 @@
 export const SiteConfig = {
-  title: "Now.ts",
-  description: "A template description for Now.ts",
+  title: "Bonificator",
+  description: "Football championship ranking with bonus system",
   prodUrl: "https://demo.nowts.app",
   domain: "demo.nowts.app",
   appIcon: "/images/icon.png",
@@ -19,7 +19,7 @@ export const SiteConfig = {
     image: "https://melvynx.com/images/me/twitter-en.jpg",
     website: "https://melvynx.com",
     twitter: "https://twitter.com/melvyn_me",
-    name: "Melvynx",
+    name: "Kim",
   },
   auth: {
     password: false as boolean,
