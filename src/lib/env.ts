@@ -13,6 +13,8 @@ export const env = createEnv({
     GITHUB_SECRET: z.string().optional(),
     GOOGLE_ID: z.string().optional(),
     GOOGLE_SECRET: z.string().optional(),
+    TWITTER_ID: z.string().optional(),
+    TWITTER_SECRET: z.string().optional(),
     RESEND_API_KEY: z.string().min(1),
     RESEND_AUDIENCE_ID: z.string().optional(),
     STRIPE_SECRET_KEY: z.string().min(1),

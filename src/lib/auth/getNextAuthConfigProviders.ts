@@ -4,6 +4,7 @@ import type { NextAuthConfig } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
+import Twitter from "next-auth/providers/twitter";
 import { env } from "../env";
 import { logger } from "../logger";
 import { sendEmail } from "../mail/sendEmail";
@@ -48,6 +49,15 @@ export const getNextAuthConfigProviders = (): Providers => {
       Google({
         clientId: env.GOOGLE_ID,
         clientSecret: env.GOOGLE_SECRET,
+      }),
+    );
+  }
+
+  if (env.TWITTER_ID && env.TWITTER_SECRET) {
+    providers.push(
+      Twitter({
+        clientId: env.TWITTER_ID,
+        clientSecret: env.TWITTER_SECRET,
       }),
     );
   }

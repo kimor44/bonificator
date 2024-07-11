@@ -68,6 +68,7 @@ export const SignInProviders = () => {
         {/* ℹ️ Add provider you want to support here */}
         {providers.github ? <ProviderButton providerId="github" /> : null}
         {providers.google ? <ProviderButton providerId="google" /> : null}
+        {providers.twitter ? <ProviderButton providerId="twitter" /> : null}
       </div>
 
       {providers.credentials ? (
