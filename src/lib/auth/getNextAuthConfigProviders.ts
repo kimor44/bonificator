@@ -53,11 +53,11 @@ export const getNextAuthConfigProviders = (): Providers => {
     );
   }
 
-  if (env.TWITTER_ID && env.TWITTER_SECRET) {
+  if (env.TWITTER_CLIENT_ID && env.TWITTER_CLIENT_SECRET) {
     providers.push(
       Twitter({
-        clientId: env.TWITTER_ID,
-        clientSecret: env.TWITTER_SECRET,
+        clientId: env.TWITTER_CLIENT_ID,
+        clientSecret: env.TWITTER_CLIENT_SECRET,
       }),
     );
   }

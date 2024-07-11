@@ -15,6 +15,8 @@ export const env = createEnv({
     GOOGLE_SECRET: z.string().optional(),
     TWITTER_ID: z.string().optional(),
     TWITTER_SECRET: z.string().optional(),
+    TWITTER_CLIENT_ID: z.string().optional(),
+    TWITTER_CLIENT_SECRET: z.string().optional(),
     RESEND_API_KEY: z.string().min(1),
     RESEND_AUDIENCE_ID: z.string().optional(),
     STRIPE_SECRET_KEY: z.string().min(1),
