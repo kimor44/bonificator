@@ -4,7 +4,7 @@ import type { NextAuthConfig } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
-import Provider from "next-auth/providers/twitter";
+import Twitter from "next-auth/providers/twitter";
 import { env } from "../env";
 import { logger } from "../logger";
 import { sendEmail } from "../mail/sendEmail";
@@ -31,6 +31,15 @@ export const getNextAuthConfigProviders = (): Providers => {
           throw new Error(`Failed to send email: ${result.error}`);
         }
       },
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
     }),
   ];
 
@@ -55,7 +64,7 @@ export const getNextAuthConfigProviders = (): Providers => {
 
   if (env.TWITTER_CLIENT_ID && env.TWITTER_CLIENT_SECRET) {
     providers.push(
-      Provider({
+      Twitter({
         clientId: env.TWITTER_CLIENT_ID,
         clientSecret: env.TWITTER_CLIENT_SECRET,
         allowDangerousEmailAccountLinking: true,

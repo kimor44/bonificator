@@ -1,19 +1,19 @@
 export const SiteConfig = {
   title: "Bonificator",
   description: "Football championship ranking with bonus system",
-  prodUrl: "https://demo.nowts.app",
-  domain: "demo.nowts.app",
+  prodUrl: "https://bonificator.vercel.app",
+  domain: "bonificator.vercel.app",
   appIcon: "/images/icon.png",
   company: {
-    name: "NowTS Inc.",
+    name: "Bonificator Inc.",
     address: "1234 Main St, New York, NY 10001",
   },
   brand: {
     primary: "#007291",
   },
   email: {
-    from: "NowTS <nowts@resend.dev>", // Replace this with your domaine email
-    contact: "contact@nowts.app",
+    from: "Julien Dev <julien@guib.dev>", // Replace this with your domaine email
+    contact: "julien@guib.dev",
   },
   maker: {
     image: "https://melvynx.com/images/me/twitter-en.jpg",
