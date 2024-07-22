@@ -7,6 +7,10 @@ import { env } from "../env";
 import { prisma } from "../prisma";
 import { setupResendCustomer, setupStripeCustomer } from "./auth-config-setup";
 import { getNextAuthConfigProviders } from "./getNextAuthConfigProviders";
+import {
+  credentialsOverrideJwt,
+  credentialsSignInCallback,
+} from "./credentials-provider";
 
 export const { handlers, auth: baseAuth } = NextAuth((req) => ({
   pages: {
@@ -15,7 +19,7 @@ export const { handlers, auth: baseAuth } = NextAuth((req) => ({
     error: "/auth/error",
     verifyRequest: "/auth/verify-request",
     // ℹ️ Add this line if you want to add an onboarding page
-    // newUser: "/auth/new-user",
+    newUser: "/auth/new-user",
   },
   adapter: PrismaAdapter(prisma),
   providers: getNextAuthConfigProviders(),
@@ -41,7 +45,7 @@ export const { handlers, auth: baseAuth } = NextAuth((req) => ({
   },
   events: {
     // 🔑 Add this line and the import to add credentials provider
-    // signIn: credentialsSignInCallback(req),
+    signIn: credentialsSignInCallback(req),
     createUser: async (message) => {
       const user = message.user;
 
@@ -64,5 +68,5 @@ export const { handlers, auth: baseAuth } = NextAuth((req) => ({
     },
   },
   // 🔑 Add this line and the import to add credentials provider
-  // jwt: credentialsOverrideJwt,
+  jwt: credentialsOverrideJwt,
 }));

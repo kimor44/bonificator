@@ -22,6 +22,6 @@ export const SiteConfig = {
     name: "Kim",
   },
   auth: {
-    password: false as boolean,
+    password: true as boolean,
   },
 };

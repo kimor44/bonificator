@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote-client/rsc";
 import { Suspense } from "react";
 import { ErrorBoundary } from "../../components/utils/ErrorBoundaries";
 import { rehypePlugins, remarkPlugins } from "./markdown.config";
+import { Alert } from "@/components/ui/alert";
 
 export type ServerMdxProps = {
   source: string;
@@ -11,7 +12,9 @@ export type ServerMdxProps = {
 };
 
 // * If you want to add custom component, such as an "EmailForm", you can add it to the MdxComponent object.
-const MdxComponent = {} satisfies Record<string, React.ComponentType>;
+const MdxComponent = {
+  Alert: Alert,
+} satisfies Record<string, React.ComponentType>;
 
 export const ServerMdx = (props: ServerMdxProps) => {
   return (

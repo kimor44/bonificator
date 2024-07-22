@@ -3,7 +3,11 @@
 import { animate } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { SectionLayout } from "./SectionLayout";
-
+import AlertDialogDemo from "./AlertDialogDemo";
+import { Button } from "@/components/ui/button";
+import { ContactFeedbackPopover } from "../contact/feedback/ContactFeedbackPopover";
+import { EmailForm } from "../email/EmailForm";
+import { EmailFormSection } from "../email/EmailFormSection";
 type StatProps = {
   number: number;
   suffix: string;
@@ -36,6 +40,16 @@ const stats: StatProps[] = [
 export function StatsSection() {
   return (
     <SectionLayout size="sm">
+      <AlertDialogDemo />
+      <ContactFeedbackPopover>
+        <Button>My button</Button>
+      </ContactFeedbackPopover>
+      <EmailForm
+        submitButtonLabel="Join"
+        successMessage="Thank you for joining the waiting list"
+      />
+      <EmailFormSection />
+
       <div className="grid w-full items-center gap-12 sm:grid-cols-2 md:-mx-5 md:max-w-none md:grid-cols-4 md:gap-0">
         {stats.map((stat, index) => (
           <div key={index} className="relative text-center md:px-5">

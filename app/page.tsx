@@ -21,19 +21,12 @@ export default function HomePage() {
   return (
     <div className="relative flex h-fit flex-col bg-background text-foreground">
       <div className="mt-16"></div>
-
       <LandingHeader />
-
       <Hero />
-
       <StatsSection />
-
       <BentoGridSection />
-
       <PainSection />
-
       <SectionDivider />
-
       <ReviewTriple
         reviews={[
           {
@@ -56,9 +49,7 @@ export default function HomePage() {
           },
         ]}
       />
-
       <SectionDivider />
-
       <ReviewSingle
         image="https://i.pravatar.cc/300?u=5"
         name="Michel"
@@ -67,7 +58,6 @@ export default function HomePage() {
         compagnyImage="https://1000logos.net/wp-content/uploads/2017/03/McDonalds-Logo-2003.png"
         key={1}
       />
-
       <FeaturesSection
         features={[
           {
@@ -131,13 +121,9 @@ export default function HomePage() {
           },
         ]}
       />
-
       <CTAImageSection />
-
       <CTASectionCard />
-
       <CtaSection />
-
       <Pricing
         cards={[
           {
@@ -175,9 +161,28 @@ export default function HomePage() {
             ctaSubtitle: "Then $49/month",
             priceId: "",
           },
+          {
+            type: "monthly",
+            id: "one-time",
+            title: "Lifetime",
+            subtitle: "Perfect for master creator",
+            price: 499,
+            barredPrice: 649,
+            currency: "USD",
+            features: [
+              "Schedule Infinite post in advance",
+              "See what you scheduled",
+              "Auto-repost your thread",
+              "Preview your post",
+              "Multiple account",
+              "Stripe integration",
+            ],
+            cta: "Start 1 month trial",
+            ctaSubtitle: "Then $499",
+            priceId: "",
+          },
         ]}
       />
-
       <FAQSection
         faq={[
           {
@@ -217,9 +222,7 @@ export default function HomePage() {
           },
         ]}
       />
-
       <SectionDivider />
-
       <ReviewGrid
         reviews={[
           {
@@ -294,11 +297,8 @@ export default function HomePage() {
           },
         ]}
       />
-
       <EmailFormSection />
-
       <SectionDivider />
-
       <Footer />
     </div>
   );
