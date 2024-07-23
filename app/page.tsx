@@ -2,7 +2,8 @@ import { EmailFormSection } from "@/features/email/EmailFormSection";
 import { BentoGridSection } from "@/features/landing/BentoSection";
 import { FAQSection } from "@/features/landing/FAQSection";
 import { FeaturesSection } from "@/features/landing/FeatureSection";
-import { Hero } from "@/features/landing/Hero";
+import FrenchChampionship from "@/features/landing/FrenchChampionship";
+import { HeroBonifcator } from "@/features/landing/HeroBonificator";
 import { LandingHeader } from "@/features/landing/LandingHeader";
 import { PainSection } from "@/features/landing/Pain";
 import { SectionDivider } from "@/features/landing/SectionDivider";
@@ -22,7 +23,8 @@ export default function HomePage() {
     <div className="relative flex h-fit flex-col bg-background text-foreground">
       <div className="mt-16"></div>
       <LandingHeader />
-      <Hero />
+      <HeroBonifcator />
+      <FrenchChampionship />
       <StatsSection />
       <BentoGridSection />
       <PainSection />
