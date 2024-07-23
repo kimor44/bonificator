@@ -6,6 +6,7 @@ import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useEffect } from "react";
 import { AuthButtonClient } from "../auth/AuthButtonClient";
 import { ThemeToggle } from "../theme/ThemeToggle";
+import { RemainingAttempts } from "../rapid-api/daily-remaining/RemainingAttempts";
 
 function useBoundedScroll(threshold: number) {
   const { scrollY } = useScroll();
@@ -89,6 +90,7 @@ export function LandingHeader() {
           <a href="/posts">Blog</a>
           <AuthButtonClient />
           <ThemeToggle />
+          <RemainingAttempts />
         </motion.nav>
       </div>
     </motion.header>

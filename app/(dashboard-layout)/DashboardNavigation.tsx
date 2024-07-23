@@ -12,6 +12,7 @@ import type { PropsWithChildren } from "react";
 import { DesktopVerticalMenu } from "../../src/features/navigation/DesktopVerticalMenu";
 import { MobileDropdownMenu } from "../../src/features/navigation/MobileDropdownMenu";
 import { DASHBOARD_LINKS } from "./dashboard-links";
+import { RemainingAttempts } from "@/features/rapid-api/daily-remaining/RemainingAttempts";
 
 export const DashboardNavigation = async (props: PropsWithChildren) => {
   const user = await adminAuth();
@@ -78,6 +79,7 @@ export const DashboardNavigation = async (props: PropsWithChildren) => {
                   </Button>
                 </ContactFeedbackPopover>
                 <ThemeToggle />
+                <RemainingAttempts />
               </nav>
             </div>
           </div>
