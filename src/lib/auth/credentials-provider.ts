@@ -54,6 +54,7 @@ export const getCredentialsProvider = () => {
           email: user.email,
           name: user.name,
           image: user.image,
+          role: user.role,
         };
       } else {
         return null;
