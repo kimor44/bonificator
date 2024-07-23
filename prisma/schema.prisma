@@ -63,6 +63,9 @@ model User {
   stripeCustomerId String?
   plan             UserPlan @default(FREE)
 
+  // Role
+  role UserRole @default(USER)
+
   // Resend email
   resendContactId String?
 
@@ -86,7 +89,95 @@ model Feedback {
   updatedAt DateTime @updatedAt
 }
 
+model Season {
+  id        String  @id @default(nanoid(11))
+  year      String  @unique
+  standings Standing[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("seasons")
+}
+
+model Country {
+  id        String  @id @default(nanoid(11))
+  name      String  @unique
+  flag      String
+  code      String  @unique @db.VarChar(2)
+  teams     Team[]
+  leagues   League[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("countries")
+}
+
+model Team {
+  id         String  @id @default(nanoid(11))
+  rapidId    String  @unique @map("rapid_id")
+  name       String
+  countryId  String? @map("country_id")
+  country    Country?   @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  logo       String?
+  standings  Standing[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("teams")
+}
+
+model League {
+  id        String  @id @default(nanoid(11))
+  name      String  @unique
+  rapidId   String  @unique
+  countryId String? @map("country_id")
+  country   Country?   @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  logo      String?
+  flag      String?
+  standings Standing[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("leagues")
+}
+
+model Standing {
+  id        String  @id @default(nanoid(11))
+  leagueId  String  @map("league_id")
+  league    League   @relation(fields: [leagueId], references: [rapidId], onDelete: Cascade)
+  seasonId  String  @map("season_id")
+  season    Season   @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  rank      Int
+  teamId    String  @map("team_id")
+  team      Team     @relation(fields: [teamId], references: [rapidId], onDelete: Cascade)
+  points    Int
+  goalsDiff Int     @map("goals_diff")
+  played    Int
+  win       Int
+  draw      Int
+  lose      Int
+  for       Int
+  against   Int
+  form      String? @db.VarChar(5)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("standings")
+}
+
+model CallApi {
+  id        String  @id @default(nanoid(11))
+  count     Int
+  createdAt DateTime @default(now())
+  @@map("call_apis")
+}
+
 enum UserPlan {
   FREE
   PREMIUM
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
