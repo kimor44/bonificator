@@ -2,7 +2,7 @@ import type { NavigationLinkGroups } from "@/features/navigation/navigation.type
 import {
   Flag,
   LayoutDashboard,
-import { LayoutDashboard, Settings, User2 } from "lucide-react";
+  ScrollText,
   Settings,
   User2,
 } from "lucide-react";
@@ -25,6 +25,11 @@ export const DASHBOARD_LINKS: NavigationLinkGroups[] = [
   {
     title: "Football data",
     links: [
+      {
+        title: "Standings",
+        icon: <ScrollText />,
+        url: "/standings",
+      },
       {
         title: "Countries",
         icon: <Flag />,
