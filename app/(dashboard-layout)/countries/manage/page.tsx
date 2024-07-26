@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { LoadingButton } from "@/features/form/SubmitButton";
 import {
   Layout,
   LayoutActions,
@@ -16,11 +15,14 @@ import {
 } from "@/features/page/layout";
 import { prisma } from "@/lib/prisma";
 import type { PageParams } from "@/types/next";
-import { Trash } from "lucide-react";
 import { AddAllCountriesButton } from "./AddAllCountriesButton";
+import { DeleteCountryButton } from "./DeleteCountryButton";
+import { sortBy } from "@/lib/sortBy";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const countries = await prisma.country.findMany();
+  let countries = await prisma.country.findMany();
+  countries = sortBy(countries, "name");
+
   return (
     <Layout>
       <LayoutHeader className="flex flex-row justify-between">
@@ -32,10 +34,12 @@ export default async function RoutePage(props: PageParams<{}>) {
       <LayoutContent>
         <Table>
           <TableHeader>
-            <TableHead>Name</TableHead>
-            <TableHead>Flag</TableHead>
-            <TableHead>Code</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Flag</TableHead>
+              <TableHead>Code</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {countries.map((country) => (
@@ -51,9 +55,7 @@ export default async function RoutePage(props: PageParams<{}>) {
                 </TableCell>
                 <TableCell>{country.code}</TableCell>
                 <TableCell>
-                  <LoadingButton>
-                    Delete <Trash />
-                  </LoadingButton>
+                  <DeleteCountryButton countryId={country.id} />
                 </TableCell>
               </TableRow>
             ))}

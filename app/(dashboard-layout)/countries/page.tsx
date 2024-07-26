@@ -15,11 +15,14 @@ import {
   LayoutTitle,
 } from "@/features/page/layout";
 import { prisma } from "@/lib/prisma";
+import { sortBy } from "@/lib/sortBy";
 import type { PageParams } from "@/types/next";
 import Link from "next/link";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const countries = await prisma.country.findMany();
+  let countries = await prisma.country.findMany();
+  countries = sortBy(countries, "name");
+
   return (
     <Layout>
       <LayoutHeader className="flex flex-row justify-between">
@@ -36,9 +39,11 @@ export default async function RoutePage(props: PageParams<{}>) {
       <LayoutContent>
         <Table>
           <TableHeader>
-            <TableHead>Name</TableHead>
-            <TableHead>Flag</TableHead>
-            <TableHead>Code</TableHead>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Flag</TableHead>
+              <TableHead>Code</TableHead>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {countries.map((country) => (
