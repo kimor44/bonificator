@@ -1,7 +1,10 @@
 import { env } from "../env";
 import { callApiUpdate } from "./call-api-update";
+import { checkCallApisRemaining } from "./helpers";
 
 export const rapidApiCall = async (slug: string) => {
+  checkCallApisRemaining();
+
   const options = {
     method: "GET",
     headers: {

@@ -1,8 +1,18 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../prisma";
 
-export const remainingAttemptsAction = async () => {
+export const checkCallApisRemaining = async () => {
+  const callApisRemaining = await getCallApisRemaining();
+
+  if (!callApisRemaining || callApisRemaining === 0) {
+    throw new Error("No remaining requests");
+  }
+
+  return true;
+};
+
+export const getCallApisRemaining = async () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -22,8 +32,8 @@ export const remainingAttemptsAction = async () => {
   });
 
   if (!response) {
-    return { attempts: 100 };
+    return 0;
   }
 
-  return { attempts: response.count };
+  return response.count;
 };
