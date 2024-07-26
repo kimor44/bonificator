@@ -20,9 +20,9 @@ export const rapidApiCall = async (slug: string) => {
 
   try {
     await callApiUpdate(remainingRequest);
+
+    return await data.json();
   } catch (error) {
     throw new Error("Error updating the remaining request");
   }
-
-  return await data.json();
 };

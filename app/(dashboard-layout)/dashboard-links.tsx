@@ -1,5 +1,6 @@
 import type { NavigationLinkGroups } from "@/features/navigation/navigation.type";
 import {
+  CalendarDays,
   Flag,
   LayoutDashboard,
   ScrollText,
@@ -34,6 +35,11 @@ export const DASHBOARD_LINKS: NavigationLinkGroups[] = [
         title: "Countries",
         icon: <Flag />,
         url: "/countries",
+      },
+      {
+        title: "Seasons",
+        icon: <CalendarDays />,
+        url: "/seasons",
       },
     ],
   },
