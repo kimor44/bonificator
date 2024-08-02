@@ -50,3 +50,19 @@ export const authAction = createSafeActionClient({
     },
   });
 });
+
+export const adminAuthAction = createSafeActionClient({
+  handleReturnedServerError,
+}).use(async ({ next }) => {
+  const user = await getUser();
+
+  if (user.role !== "ADMIN") {
+    throw new ActionError("You must be an admin to access this resource.");
+  }
+
+  return next({
+    ctx: {
+      user: user as User,
+    },
+  });
+});
