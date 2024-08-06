@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { LeagueForm } from "./LeagueForm";
-import { CountryLeagues } from "./CountryLeagues";
+import { SelectCountryForm } from "./SelectCountryForm";
+import { SelectLeaguesForm } from "./SelectLeaguesForm";
 import type { LeagueSchemaType } from "./league.schema";
 
 type TCountriesSelect = {
@@ -25,13 +25,13 @@ export const SelectNewLeague = async (props: TSelectNewLeague) => {
 
   return (
     <>
-      <LeagueForm
+      <SelectCountryForm
         defaultValues={{ country: "" }}
         countries={props.countries}
         handleLeagues={handleSetLeagues}
       />
 
-      {leagues.length > 0 ? <CountryLeagues leagues={leagues} /> : null}
+      {leagues.length > 0 ? <SelectLeaguesForm leagues={leagues} /> : null}
     </>
   );
 };

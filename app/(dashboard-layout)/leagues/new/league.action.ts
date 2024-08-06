@@ -3,18 +3,17 @@
 import { adminAuthAction } from "@/lib/backend/safe-actions";
 import { rapidApiCall } from "@/lib/rapid-api/rapid-api-call";
 import { SLUGS } from "@/lib/rapid-api/slugs";
-import { newLeagueFormSchema } from "./league.schema";
+import { leaguesSchema, selectCountryFormSchema } from "./league.schema";
 import { prisma } from "@/lib/prisma";
-import { leaguesArraySchema } from "./league.schema";
 import { z } from "zod";
 
-export const createLeagueAction = adminAuthAction
-  .schema(newLeagueFormSchema)
+export const getCountryLeagues = adminAuthAction
+  .schema(selectCountryFormSchema)
   .action(async ({ parsedInput: { country } }) => {
     const leagues = await rapidApiCall(SLUGS.leaguesByCountryName(country));
 
     try {
-      const parsedLeagues = leaguesArraySchema.parse(leagues.response);
+      const parsedLeagues = leaguesSchema.parse(leagues.response);
 
       if (parsedLeagues.length === 0) {
         throw new Error("No leagues found for this country");
