@@ -18,9 +18,14 @@ export type TSelectNewLeague = {
 
 export const SelectNewLeague = async (props: TSelectNewLeague) => {
   const [leagues, setLeagues] = useState<LeagueSchemaType[]>([]);
+  const [countryId, setCountryId] = useState<string>("");
 
   const handleSetLeagues = (leagues: LeagueSchemaType[]) => {
     setLeagues(leagues);
+  };
+
+  const handleCountryId = (id: string) => {
+    setCountryId(id);
   };
 
   return (
@@ -29,9 +34,12 @@ export const SelectNewLeague = async (props: TSelectNewLeague) => {
         defaultValues={{ country: "" }}
         countries={props.countries}
         handleLeagues={handleSetLeagues}
+        handleCountryId={handleCountryId}
       />
 
-      {leagues.length > 0 ? <SelectLeaguesForm leagues={leagues} /> : null}
+      {leagues.length > 0 ? (
+        <SelectLeaguesForm leagues={leagues} countryId={countryId} />
+      ) : null}
     </>
   );
 };

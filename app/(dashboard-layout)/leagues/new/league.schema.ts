@@ -50,20 +50,20 @@ export const leaguesSchema = z.array(leagueSchema);
 
 export type LeaguesSchemaType = z.infer<typeof leaguesSchema>;
 
-// export const preparedLeagueSchema = leagueSchema
-//   .pick({
-//     league: true,
-//     country: true,
-//   })
-//   .transform(({ league, country }) => ({
-//     id: league.id,
-//     name: league.name,
-//     type: league.type,
-//     logo: league.logo,
-//     countryCode: country.code,
-//   }));
+export const filteredLeague = z.object({
+  rapidId: z.string(),
+  name: z.string(),
+  type: z.string(),
+  logo: z.string(),
+  countryId: z.string(),
+  seasons: z.array(z.number()),
+});
 
-// export const selectedLeaguesSchema = z.array(preparedLeagueSchema);
+export type FilteredLeagueType = z.infer<typeof filteredLeague>;
+
+export const filteredLeaguesSchema = z.array(filteredLeague);
+
+export type FilteredLeaguesSchemaType = z.infer<typeof filteredLeaguesSchema>;
 
 export type TSelectedLeagues = {
   id: number;
@@ -74,7 +74,7 @@ export type TSelectedLeagues = {
 };
 
 export const selectLeaguesFormSchema = z.object({
-  leagues: z.array(z.number()).refine((value) => value.some((item) => item), {
+  leagues: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
 });

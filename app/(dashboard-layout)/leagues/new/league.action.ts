@@ -3,7 +3,12 @@
 import { adminAuthAction } from "@/lib/backend/safe-actions";
 import { rapidApiCall } from "@/lib/rapid-api/rapid-api-call";
 import { SLUGS } from "@/lib/rapid-api/slugs";
-import { leaguesSchema, selectCountryFormSchema } from "./league.schema";
+import type { FilteredLeaguesSchemaType } from "./league.schema";
+import {
+  filteredLeaguesSchema,
+  leaguesSchema,
+  selectCountryFormSchema,
+} from "./league.schema";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
@@ -40,4 +45,49 @@ export const getAllCountries = async () => {
   });
 
   return countries;
+};
+
+export const createLeagueAction = adminAuthAction
+  .schema(filteredLeaguesSchema)
+  .action(async ({ parsedInput }) => {
+    const parsedLeagues: FilteredLeaguesSchemaType =
+      filteredLeaguesSchema.parse(parsedInput);
+
+    for (const league of parsedLeagues) {
+      const seasonsLeague = league.seasons.map((sea) => {
+        return {
+          season: {
+            connect: {
+              year: String(sea),
+            },
+          },
+        };
+      });
+      const leagueData = {
+        rapidId: league.rapidId,
+        name: league.name,
+        type: league.type,
+        logo: league.logo,
+        countryId: league.countryId,
+        seasons: {
+          create: seasonsLeague,
+        },
+      };
+
+      await prisma.league.create({
+        data: leagueData,
+      });
+    }
+
+    return true;
+  });
+
+export const getLeagueIds = async () => {
+  const leagueIds = await prisma.league.findMany({
+    select: {
+      id: true,
+    },
+  });
+
+  return leagueIds;
 };

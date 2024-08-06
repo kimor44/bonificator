@@ -32,6 +32,7 @@ export type LeagueFormProps = {
   defaultValues: SelectCountryFormSchema;
   countries: TSelectNewLeague["countries"];
   handleLeagues: (leagues: LeagueSchemaType[]) => void;
+  handleCountryId: (id: string) => void;
 };
 
 export const SelectCountryForm = (props: LeagueFormProps) => {
@@ -47,6 +48,9 @@ export const SelectCountryForm = (props: LeagueFormProps) => {
       const country: SelectCountryFormSchema["country"] = String(
         values.country,
       );
+
+      const countryId = String(countries.find((c) => c.name === country)?.id);
+      props.handleCountryId(countryId);
       const res = await getCountryLeagues({ country });
 
       if (!res?.data) {

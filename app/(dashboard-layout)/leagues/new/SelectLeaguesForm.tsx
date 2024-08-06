@@ -1,11 +1,7 @@
 "use client";
 
-import { LayoutContent } from "@/features/page/layout";
-import type { SelectLeaguesFormSchemaType } from "./league.schema";
-import {
-  selectLeaguesFormSchema,
-  type LeagueSchemaType,
-} from "./league.schema";
+import { buttonVariants } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,13 +12,23 @@ import {
   FormMessage,
   useZodForm,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { LoadingButton } from "@/features/form/SubmitButton";
-import { buttonVariants } from "@/components/ui/button";
+import { LayoutContent } from "@/features/page/layout";
 import { useMutation } from "@tanstack/react-query";
+import { createLeagueAction } from "./league.action";
+import type {
+  FilteredLeaguesSchemaType,
+  SelectLeaguesFormSchemaType,
+} from "./league.schema";
+import {
+  selectLeaguesFormSchema,
+  type LeagueSchemaType,
+} from "./league.schema";
+import { toast } from "sonner";
 
 export type TCountryLeagues = {
   leagues: LeagueSchemaType[];
+  countryId: string;
 };
 
 const SelectLeaguesForm = (props: TCountryLeagues) => {
@@ -33,9 +39,28 @@ const SelectLeaguesForm = (props: TCountryLeagues) => {
 
   const submitMutation = useMutation({
     mutationFn: async (values: SelectLeaguesFormSchemaType) => {
-      const sourceLeagues = props.leagues.filter((league) =>
-        values.leagues.includes(league.league.id),
-      );
+      const clonedLeagues = [...props.leagues];
+      const sourceLeagues: FilteredLeaguesSchemaType = clonedLeagues
+        .filter((league) => values.leagues.includes(league.league.name))
+        .map((league) => {
+          return {
+            rapidId: String(league.league.id),
+            name: league.league.name,
+            type: league.league.type,
+            logo: league.league.logo,
+            countryId: props.countryId,
+            seasons: league.seasons.map((season) => season.year),
+          };
+        });
+
+      const res = await createLeagueAction(sourceLeagues);
+
+      if (!res?.data) {
+        toast.error(res?.serverError);
+        return;
+      }
+
+      toast.success(`Leagues registered successfully`);
     },
   });
 
@@ -66,16 +91,16 @@ const SelectLeaguesForm = (props: TCountryLeagues) => {
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value.includes(league.league.id)}
+                            checked={field.value.includes(league.league.name)}
                             onCheckedChange={(checked) => {
                               return checked
                                 ? field.onChange([
                                     ...field.value,
-                                    league.league.id,
+                                    league.league.name,
                                   ])
                                 : field.onChange(
                                     field.value.filter(
-                                      (value) => value !== league.league.id,
+                                      (value) => value !== league.league.name,
                                     ),
                                   );
                             }}
