@@ -101,8 +101,8 @@ export const SelectCountryForm = (props: LeagueFormProps) => {
           )}
         />
         <LoadingButton
-          disabled={submitMutation.isPending}
-          className={`${buttonVariants({ size: "sm" })} mt-12`}
+          loading={submitMutation.isPending}
+          className={`${buttonVariants({ size: "sm" })} mt-6`}
           type="submit"
         >
           Get leagues

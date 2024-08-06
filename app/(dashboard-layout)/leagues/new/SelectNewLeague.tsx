@@ -20,7 +20,7 @@ export const SelectNewLeague = async (props: TSelectNewLeague) => {
   const [leagues, setLeagues] = useState<LeagueSchemaType[]>([]);
   const [countryName, setCountryName] = useState<string>("");
 
-  const handleSetLeagues = (leagues: LeagueSchemaType[]) => {
+  const handleLeagues = (leagues: LeagueSchemaType[]) => {
     setLeagues(leagues);
   };
 
@@ -30,16 +30,20 @@ export const SelectNewLeague = async (props: TSelectNewLeague) => {
 
   return (
     <>
-      <SelectCountryForm
-        defaultValues={{ country: "" }}
-        countries={props.countries}
-        handleLeagues={handleSetLeagues}
-        handleCountry={handleCountry}
-      />
-
-      {leagues.length > 0 ? (
-        <SelectLeaguesForm leagues={leagues} countryName={countryName} />
-      ) : null}
+      {leagues.length === 0 ? (
+        <SelectCountryForm
+          defaultValues={{ country: "" }}
+          countries={props.countries}
+          handleLeagues={handleLeagues}
+          handleCountry={handleCountry}
+        />
+      ) : (
+        <SelectLeaguesForm
+          leagues={leagues}
+          countryName={countryName}
+          handleLeagues={handleLeagues}
+        />
+      )}
     </>
   );
 };
