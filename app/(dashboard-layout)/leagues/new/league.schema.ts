@@ -55,7 +55,7 @@ export const filteredLeague = z.object({
   name: z.string(),
   type: z.string(),
   logo: z.string(),
-  countryId: z.string(),
+  countryName: z.string(),
   seasons: z.array(z.number()),
 });
 

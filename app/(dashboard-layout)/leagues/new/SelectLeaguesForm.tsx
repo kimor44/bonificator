@@ -25,13 +25,16 @@ import {
   type LeagueSchemaType,
 } from "./league.schema";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type TCountryLeagues = {
   leagues: LeagueSchemaType[];
-  countryId: string;
+  countryName: string;
 };
 
 const SelectLeaguesForm = (props: TCountryLeagues) => {
+  const router = useRouter();
+
   const form = useZodForm({
     schema: selectLeaguesFormSchema,
     defaultValues: { leagues: [] },
@@ -48,7 +51,7 @@ const SelectLeaguesForm = (props: TCountryLeagues) => {
             name: league.league.name,
             type: league.league.type,
             logo: league.league.logo,
-            countryId: props.countryId,
+            countryName: props.countryName,
             seasons: league.seasons.map((season) => season.year),
           };
         });
@@ -61,6 +64,7 @@ const SelectLeaguesForm = (props: TCountryLeagues) => {
       }
 
       toast.success(`Leagues registered successfully`);
+      router.push("/leagues");
     },
   });
 

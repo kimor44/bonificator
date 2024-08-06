@@ -68,7 +68,7 @@ export const createLeagueAction = adminAuthAction
         name: league.name,
         type: league.type,
         logo: league.logo,
-        countryId: league.countryId,
+        country: { connect: { name: league.countryName } },
         seasons: {
           create: seasonsLeague,
         },
