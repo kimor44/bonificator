@@ -92,8 +92,7 @@ model Feedback {
 model Season {
   id        String  @id @default(nanoid(11))
   year      String  @unique
-  standings Standing[]
-  leagues   League[]
+  leagues   LeagueSeason[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,8 +133,7 @@ model League {
   rapidId   String  @unique
   countryId String? @map("country_id")
   country   Country?   @relation(fields: [countryId], references: [id], onDelete: SetNull)
-  seasonId  String? @map("season_id")
-  season    Season?   @relation(fields: [seasonId], references: [id], onDelete: SetNull)
+  seasons   LeagueSeason[] // Mettre à jour la relation
   logo      String?
   standings Standing[]
 
@@ -148,8 +146,6 @@ model Standing {
   id        String  @id @default(nanoid(11))
   leagueId  String  @map("league_id")
   league    League   @relation(fields: [leagueId], references: [rapidId], onDelete: Cascade)
-  seasonId  String  @map("season_id")
-  season    Season   @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   rank      Int
   teamId    String  @map("team_id")
   team      Team     @relation(fields: [teamId], references: [rapidId], onDelete: Cascade)
@@ -166,6 +162,16 @@ model Standing {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("standings")
+}
+
+model LeagueSeason {
+  leagueId String
+  seasonId String
+  league   League  @relation(fields: [leagueId], references: [id])
+  season   Season  @relation(fields: [seasonId], references: [id])
+
+  @@id([leagueId, seasonId])
+  @@map("league_season")
 }
 
 model CallApi {
