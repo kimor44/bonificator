@@ -167,8 +167,8 @@ model Standing {
 model LeagueSeason {
   leagueId String
   seasonId String
-  league   League  @relation(fields: [leagueId], references: [id])
-  season   Season  @relation(fields: [seasonId], references: [id])
+  league   League  @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  season   Season  @relation(fields: [seasonId], references: [id], onDelete: Cascade)
 
   @@id([leagueId, seasonId])
   @@map("league_season")

@@ -111,3 +111,9 @@ export type TLeaguesByCountries = {
     }[];
   }[];
 }[];
+
+export const deleteLeagueSchema = z.object({
+  leagueId: z.string(),
+});
+
+export type DeleteLeagueSchemaType = z.infer<typeof deleteLeagueSchema>;

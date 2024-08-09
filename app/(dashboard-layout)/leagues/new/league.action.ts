@@ -1,10 +1,11 @@
 "use server";
 
-import { adminAuthAction } from "@/lib/backend/safe-actions";
+import { ActionError, adminAuthAction } from "@/lib/backend/safe-actions";
 import { rapidApiCall } from "@/lib/rapid-api/rapid-api-call";
 import { SLUGS } from "@/lib/rapid-api/slugs";
 import type { FilteredLeaguesSchemaType } from "./league.schema";
 import {
+  deleteLeagueSchema,
   filteredLeaguesSchema,
   leaguesSchema,
   selectCountryFormSchema,
@@ -114,3 +115,21 @@ export const getLeagues = async () => {
 
   return leagues;
 };
+
+export const deleteLeagueAction = adminAuthAction
+  .schema(deleteLeagueSchema)
+  .action(async ({ parsedInput }) => {
+    try {
+      const deletedLeague = await prisma.league.delete({
+        where: {
+          id: parsedInput.leagueId,
+        },
+      });
+
+      return deletedLeague.name;
+    } catch (err) {
+      throw new ActionError(
+        `League hasn't been deleted du some probleme ${err}}`,
+      );
+    }
+  });
