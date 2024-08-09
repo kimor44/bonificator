@@ -91,3 +91,26 @@ export const getLeagueIds = async () => {
 
   return leagueIds;
 };
+
+export const getLeagues = async () => {
+  const leagues = await prisma.country.findMany({
+    where: {
+      leagues: {
+        some: {}, // Cette condition assure que seuls les pays avec des ligues sont inclus
+      },
+    },
+    include: {
+      leagues: {
+        include: {
+          seasons: {
+            include: {
+              season: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return leagues;
+};

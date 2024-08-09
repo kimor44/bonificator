@@ -82,3 +82,32 @@ export const selectLeaguesFormSchema = z.object({
 export type SelectLeaguesFormSchemaType = z.infer<
   typeof selectLeaguesFormSchema
 >;
+
+export type TLeaguesByCountries = {
+  id: string;
+  name: string;
+  flag: string;
+  code: string;
+  createdAt: Date;
+  updatedAt: Date;
+  leagues: {
+    id: string;
+    name: string;
+    type: string;
+    rapidId: string;
+    countryId: string | null;
+    logo: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    seasons: {
+      leagueId: string;
+      seasonId: string;
+      season: {
+        id: string;
+        year: string;
+        createdAt: Date;
+        updatedAt: Date;
+      };
+    }[];
+  }[];
+}[];

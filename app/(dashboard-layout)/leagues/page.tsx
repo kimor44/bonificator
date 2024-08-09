@@ -8,29 +8,34 @@ import {
 } from "@/features/page/layout";
 import type { PageParams } from "@/types/next";
 import Link from "next/link";
+import { getLeagues } from "./new/league.action";
+import { LeaguesTable } from "./LeaguesTable";
+import { Pen } from "lucide-react";
 
 export default async function RoutePage(props: PageParams<{}>) {
+  const countries = await getLeagues();
+
   return (
     <Layout>
       <LayoutHeader className="flex flex-row justify-between">
         <LayoutTitle>Leagues</LayoutTitle>
-        <LayoutActions>
-          <Link className={buttonVariants({ size: "sm" })} href="/leagues/new">
+        <LayoutActions className="flex gap-4">
+          <Link
+            className={buttonVariants({ size: "sm", variant: "link" })}
+            href="/leagues/new"
+          >
             Add new league
+          </Link>
+          <Link
+            className={`${buttonVariants({ size: "sm" })} flex gap-4`}
+            href="/leagues/edit"
+          >
+            <Pen /> Edit leagues
           </Link>
         </LayoutActions>
       </LayoutHeader>
       <LayoutContent>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id cupiditate
-        eum officia quos blanditiis vel consequatur maiores aliquid deleniti
-        enim, cum voluptatum, assumenda molestiae. Veritatis a magnam commodi
-        vero unde? Iste velit facere nemo fuga nostrum deserunt consectetur
-        assumenda officia, iusto porro ab! Nemo aut mollitia ipsum adipisci
-        reprehenderit fugiat ratione reiciendis error dolor exercitationem
-        consequuntur quod, minima sapiente a. Doloribus ab consectetur fuga
-        delectus asperiores fugit repellat voluptates commodi error nostrum,
-        odio voluptatibus earum sint in optio veniam quaerat. Consectetur
-        deleniti voluptates enim ab, fugit suscipit ducimus laboriosam optio.
+        <LeaguesTable countries={countries} />
       </LayoutContent>
     </Layout>
   );
