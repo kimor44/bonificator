@@ -6,6 +6,7 @@ import { SLUGS } from "@/lib/rapid-api/slugs";
 import type { FilteredLeaguesSchemaType } from "./league.schema";
 import {
   deleteLeagueSchema,
+  deleteSeasonSchema,
   filteredLeaguesSchema,
   leaguesSchema,
   selectCountryFormSchema,
@@ -130,6 +131,32 @@ export const deleteLeagueAction = adminAuthAction
     } catch (err) {
       throw new ActionError(
         `League hasn't been deleted du some probleme ${err}}`,
+      );
+    }
+  });
+
+export const deleteSeasonAction = adminAuthAction
+  .schema(deleteSeasonSchema)
+  .action(async ({ parsedInput }) => {
+    const { leagueId, seasonId } = deleteSeasonSchema.parse(parsedInput);
+    try {
+      const deletedSeason = await prisma.leagueSeason.delete({
+        where: {
+          leagueId_seasonId: {
+            leagueId,
+            seasonId,
+          },
+        },
+        select: {
+          season: true,
+          league: true,
+        },
+      });
+
+      return deletedSeason;
+    } catch (err) {
+      throw new ActionError(
+        `Season hasn't been deleted du some probleme ${err}}`,
       );
     }
   });

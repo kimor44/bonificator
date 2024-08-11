@@ -117,3 +117,11 @@ export const deleteLeagueSchema = z.object({
 });
 
 export type DeleteLeagueSchemaType = z.infer<typeof deleteLeagueSchema>;
+
+export const deleteSeasonSchema = z
+  .object({
+    seasonId: z.string(),
+  })
+  .merge(deleteLeagueSchema);
+
+export type DeleteSeasonSchemaType = z.infer<typeof deleteSeasonSchema>;

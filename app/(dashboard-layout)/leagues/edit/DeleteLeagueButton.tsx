@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { DeleteLeagueSchemaType } from "../new/league.schema";
 import { useRouter } from "next/navigation";
+import { waiting } from "@/lib/utils";
 
 export type TDeleteLeagueButton = {
   leagueId: string;
@@ -17,10 +18,7 @@ const DeleteLeagueButton = (props: TDeleteLeagueButton) => {
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: async (leagueId: DeleteLeagueSchemaType["leagueId"]) => {
-      // waiting 2 seconds
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
+      await waiting(500);
 
       const deletedLeague = await deleteLeagueAction({ leagueId: leagueId });
 
