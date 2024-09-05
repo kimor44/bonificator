@@ -65,8 +65,8 @@ const SelectLeaguesForm = (props: TCountryLeagues) => {
       }
 
       toast.success(`Leagues registered successfully`);
-      router.refresh();
       router.push("/leagues");
+      router.refresh();
     },
   });
 
