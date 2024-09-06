@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FLAG_PLACEHOLDER } from "@/lib/constants";
 
 export type TSelectLeagueForm = {
   defaultValues: SelectLeagueFormSchema;
@@ -81,7 +82,7 @@ const SelectLeagueForm = (props: TSelectLeagueForm) => {
                     <SelectItem key={league.id} value={league.id}>
                       <span>
                         <img
-                          src={league.logo || "https://placehold.co/80x50"}
+                          src={league.logo || FLAG_PLACEHOLDER}
                           alt={league.name}
                           width={20}
                           height={12}

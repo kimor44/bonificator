@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { TLeaguesByCountries } from "./new/league.schema";
+import { FLAG_PLACEHOLDER } from "@/lib/constants";
 
 export type TLeaguesTable = {
   countries: TLeaguesByCountries;
@@ -31,7 +32,7 @@ const LeaguesTable = (props: TLeaguesTable) => {
                   <AccordionTrigger className="font-normal">
                     {" "}
                     <img
-                      src={league.logo || "https://placehold.co/80x50"}
+                      src={league.logo || FLAG_PLACEHOLDER}
                       width="20"
                       height="20"
                       alt={league.name}
