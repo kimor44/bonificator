@@ -31,7 +31,7 @@ const LeaguesTable = (props: TLeaguesTable) => {
                   <AccordionTrigger className="font-normal">
                     {" "}
                     <img
-                      src={league.logo || "https://via.placeholder.com/30"}
+                      src={league.logo || "https://placehold.co/80x50"}
                       width="20"
                       height="20"
                       alt={league.name}

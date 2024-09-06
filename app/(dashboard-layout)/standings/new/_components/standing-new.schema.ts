@@ -1,10 +1,28 @@
 import { z } from "zod";
 
 export const selectCountryFormSchema = z.object({
-  country: z.string(),
+  countryId: z.string(),
 });
 
 export type SelectCountryFormSchema = z.infer<typeof selectCountryFormSchema>;
+
+export const selectLeagueFormSchema = z.object({
+  leagueId: z.string(),
+});
+
+export type SelectLeagueFormSchema = z.infer<typeof selectLeagueFormSchema>;
+
+export type TLeaguesFromCountryId = {
+  id: string;
+  name: string;
+  logo: string | null;
+  type: string;
+}[];
+
+export type TSeasonsFromLeagueId = {
+  id: string;
+  year: string;
+}[];
 
 // export const StandingFormSchema = z.object({
 //   seasonId: z.string(),

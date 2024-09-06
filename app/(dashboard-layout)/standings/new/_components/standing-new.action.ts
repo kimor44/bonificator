@@ -1,10 +1,12 @@
+"use server";
+
 import { prisma } from "@/lib/prisma";
 
 export const getCountriesByLeagues = async () => {
   const countries = await prisma.country.findMany({
     where: {
       leagues: {
-        some: {}, // Cette condition assure que seuls les pays avec des ligues sont inclus
+        some: {},
       },
     },
     select: {
@@ -15,4 +17,38 @@ export const getCountriesByLeagues = async () => {
   });
 
   return countries;
+};
+
+export const getLeaguesByCountryId = async (countryId: string) => {
+  const leagues = await prisma.league.findMany({
+    where: {
+      countryId,
+    },
+    select: {
+      id: true,
+      name: true,
+      logo: true,
+      type: true,
+    },
+  });
+
+  return leagues;
+};
+
+export const getSeasonsByLeagueId = async (leagueId: string) => {
+  const seasons = await prisma.season.findMany({
+    where: {
+      leagues: {
+        some: {
+          leagueId: leagueId,
+        },
+      },
+    },
+    select: {
+      id: true,
+      year: true,
+    },
+  });
+
+  return seasons;
 };

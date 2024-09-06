@@ -9,7 +9,10 @@ import {
   useZodForm,
 } from "@/components/ui/form";
 import type { TCountry } from "./SelectNewStanding";
-import type { SelectCountryFormSchema } from "./standing-new.schema";
+import type {
+  SelectCountryFormSchema,
+  TLeaguesFromCountryId,
+} from "./standing-new.schema";
 import { selectCountryFormSchema } from "./standing-new.schema";
 import { useMutation } from "@tanstack/react-query";
 import { LayoutContent } from "@/features/page/layout";
@@ -20,13 +23,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { buttonVariants } from "@/components/ui/button";
-import { LoadingButton } from "@/features/form/SubmitButton";
+import { getLeaguesByCountryId } from "./standing-new.action";
 
 export type TSelectCountryForm = {
   defaultValues: SelectCountryFormSchema;
   countries: TCountry[];
   handleCountry: (name: string) => void;
+  handleLeagues: (leagues: TLeaguesFromCountryId) => void;
 };
 
 const SelectCountryForm = (props: TSelectCountryForm) => {
@@ -34,11 +37,15 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
 
   const submitMutation = useMutation({
     mutationFn: async (values: SelectCountryFormSchema) => {
-      const country: SelectCountryFormSchema["country"] = String(
-        values.country,
+      const countryId: SelectCountryFormSchema["countryId"] = String(
+        values.countryId,
       );
 
-      props.handleCountry(country);
+      const leagues: TLeaguesFromCountryId =
+        await getLeaguesByCountryId(countryId);
+
+      props.handleLeagues(leagues);
+      props.handleCountry(countryId);
     },
   });
 
@@ -47,21 +54,28 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
     defaultValues: props.defaultValues,
   });
 
+  const handleSubmitOnChange = (countryId: string) => {
+    form.setValue("countryId", countryId); // Mets à jour la valeur dans le formulaire
+    form.handleSubmit((v) => submitMutation.mutate(v))(); // Soumet le formulaire automatiquement
+  };
+
   return (
     <LayoutContent>
       <Form
         form={form}
         disabled={submitMutation.isPending}
-        onSubmit={(v) => submitMutation.mutate(v)}
+        onSubmit={(v) => submitMutation.mutate(v)} // Cette soumission est maintenant manuelle mais utilisée pour le déclenchement auto
       >
         <FormField
           control={form.control}
-          name="country"
+          name="countryId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Country</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                {" "}
+              <Select
+                onValueChange={(value) => handleSubmitOnChange(value)} // Appel à la soumission au changement
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a country" />
@@ -69,7 +83,7 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
                 </FormControl>
                 <SelectContent className="max-h-screen overflow-y-auto">
                   {countries.map((country) => (
-                    <SelectItem key={country.id} value={country.name}>
+                    <SelectItem key={country.id} value={country.id}>
                       <span className="flex flex-row gap-4">
                         <img
                           src={country.flag}
@@ -86,13 +100,6 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
             </FormItem>
           )}
         />
-        <LoadingButton
-          loading={submitMutation.isPending}
-          className={`${buttonVariants({ size: "sm" })} mt-6`}
-          type="submit"
-        >
-          Select
-        </LoadingButton>
       </Form>
     </LayoutContent>
   );
