@@ -40,13 +40,16 @@ export const getSeasonsByLeagueId = async (leagueId: string) => {
     where: {
       leagues: {
         some: {
-          leagueId: leagueId,
+          leagueId,
         },
       },
     },
     select: {
       id: true,
       year: true,
+    },
+    orderBy: {
+      year: "desc",
     },
   });
 

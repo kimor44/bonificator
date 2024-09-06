@@ -12,6 +12,7 @@ import type { TCountry } from "./SelectNewStanding";
 import type {
   SelectCountryFormSchema,
   TLeaguesFromCountryId,
+  TSeasonsFromLeagueId,
 } from "./standing-new.schema";
 import { selectCountryFormSchema } from "./standing-new.schema";
 import { useMutation } from "@tanstack/react-query";
@@ -28,8 +29,8 @@ import { getLeaguesByCountryId } from "./standing-new.action";
 export type TSelectCountryForm = {
   defaultValues: SelectCountryFormSchema;
   countries: TCountry[];
-  handleCountry: (name: string) => void;
   handleLeagues: (leagues: TLeaguesFromCountryId) => void;
+  handleSeasons: (seasons: TSeasonsFromLeagueId) => void;
 };
 
 const SelectCountryForm = (props: TSelectCountryForm) => {
@@ -45,7 +46,7 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
         await getLeaguesByCountryId(countryId);
 
       props.handleLeagues(leagues);
-      props.handleCountry(countryId);
+      props.handleSeasons([]);
     },
   });
 

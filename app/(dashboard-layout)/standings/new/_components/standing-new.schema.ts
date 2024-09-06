@@ -24,6 +24,12 @@ export type TSeasonsFromLeagueId = {
   year: string;
 }[];
 
+export const selectSeasonFormSchema = z.object({
+  seasonId: z.string(),
+});
+
+export type SelectSeasonFormSchema = z.infer<typeof selectSeasonFormSchema>;
+
 // export const StandingFormSchema = z.object({
 //   seasonId: z.string(),
 //   rank: z.number().int(),

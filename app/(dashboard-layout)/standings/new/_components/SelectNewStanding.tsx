@@ -7,6 +7,8 @@ import type {
   TSeasonsFromLeagueId,
 } from "./standing-new.schema";
 import { SelectLeagueForm } from "./SelectLeagueForm";
+import { SelectSeasonForm } from "./SelectSeasonForm";
+import { LayoutContent } from "@/features/page/layout";
 
 export type TCountry = {
   id: string;
@@ -19,13 +21,9 @@ export type TSelectCountryForm = {
 };
 
 export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
-  const [countryId, setCountryId] = useState<string>("");
   const [leagues, setLeagues] = useState<TLeaguesFromCountryId>([]);
   const [seasons, setSeasons] = useState<TSeasonsFromLeagueId>([]);
-
-  const handleCountry = (id: string) => {
-    setCountryId(id);
-  };
+  const [year, setYear] = useState<string>();
 
   const handleLeagues = (leagues: TLeaguesFromCountryId) => {
     setLeagues(leagues);
@@ -35,13 +33,17 @@ export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
     setSeasons(seasons);
   };
 
+  const handleYear = (year: string) => {
+    setYear(year);
+  };
+
   return (
-    <>
+    <LayoutContent>
       <SelectCountryForm
         countries={countries}
         defaultValues={{ countryId: "" }}
-        handleCountry={handleCountry}
         handleLeagues={handleLeagues}
+        handleSeasons={handleSeasons}
       />
       {leagues.length > 0 && (
         <SelectLeagueForm
@@ -50,6 +52,13 @@ export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
           defaultValues={{ leagueId: "" }}
         />
       )}
-    </>
+      {leagues.length > 0 && seasons.length > 0 && (
+        <SelectSeasonForm
+          seasons={seasons}
+          defaultValues={{ seasonId: "" }}
+          handleSeason={handleYear}
+        />
+      )}
+    </LayoutContent>
   );
 };
