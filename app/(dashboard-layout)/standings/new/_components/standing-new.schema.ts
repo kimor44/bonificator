@@ -17,6 +17,7 @@ export type TLeaguesFromCountryId = {
   name: string;
   logo: string | null;
   type: string;
+  rapidId: string;
 }[];
 
 export type TSeasonsFromLeagueId = {
@@ -25,7 +26,7 @@ export type TSeasonsFromLeagueId = {
 }[];
 
 export const selectSeasonFormSchema = z.object({
-  seasonId: z.string(),
+  seasonYear: z.string(),
 });
 
 export type SelectSeasonFormSchema = z.infer<typeof selectSeasonFormSchema>;

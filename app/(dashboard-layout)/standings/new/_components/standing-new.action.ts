@@ -29,6 +29,7 @@ export const getLeaguesByCountryId = async (countryId: string) => {
       name: true,
       logo: true,
       type: true,
+      rapidId: true,
     },
   });
 

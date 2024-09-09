@@ -23,11 +23,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FLAG_PLACEHOLDER } from "@/lib/constants";
+import { toast } from "sonner";
 
 export type TSelectLeagueForm = {
   defaultValues: SelectLeagueFormSchema;
   leagues: TLeaguesFromCountryId;
   handleSeasons: (seasons: TSeasonsFromLeagueId) => void;
+  handleLeagueRapidId: (rapidId: string) => void;
+  handleYear: (year: string) => void;
 };
 
 const SelectLeagueForm = (props: TSelectLeagueForm) => {
@@ -37,6 +40,17 @@ const SelectLeagueForm = (props: TSelectLeagueForm) => {
       const leagueId: SelectLeagueFormSchema["leagueId"] = String(
         values.leagueId,
       );
+
+      const leagueRapidId = leagues.find((l) => l.id === leagueId);
+
+      if (!leagueRapidId) {
+        toast.error("League not found");
+        throw new Error("League not found");
+      }
+
+      props.handleLeagueRapidId(leagueRapidId.rapidId);
+      props.handleYear("");
+      props.handleSeasons([]);
 
       const seasons: TSeasonsFromLeagueId =
         await getSeasonsByLeagueId(leagueId);
@@ -80,7 +94,7 @@ const SelectLeagueForm = (props: TSelectLeagueForm) => {
                 <SelectContent>
                   {leagues.map((league) => (
                     <SelectItem key={league.id} value={league.id}>
-                      <span>
+                      <span className="flex flex-row gap-4">
                         <img
                           src={league.logo || FLAG_PLACEHOLDER}
                           alt={league.name}

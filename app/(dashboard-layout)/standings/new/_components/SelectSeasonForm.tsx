@@ -22,16 +22,16 @@ import {
 
 export type TSelectSeasonForm = {
   seasons: TSeasonsFromLeagueId;
-  defaultValues: { seasonId: string };
-  handleSeason: (seasonId: string) => void;
+  defaultValues: { seasonYear: string };
+  handleSeason: (seasonYear: string) => void;
 };
 
 const SelectSeasonForm = (props: TSelectSeasonForm) => {
   const seasons = [...props.seasons];
 
   const submitMutation = useMutation({
-    mutationFn: async (values: { seasonId: string }) => {
-      props.handleSeason(values.seasonId);
+    mutationFn: async (values: { seasonYear: string }) => {
+      props.handleSeason(values.seasonYear);
     },
   });
 
@@ -40,8 +40,8 @@ const SelectSeasonForm = (props: TSelectSeasonForm) => {
     defaultValues: props.defaultValues,
   });
 
-  const handleSubmitOnChange = (seasonId: string) => {
-    form.setValue("seasonId", seasonId);
+  const handleSubmitOnChange = (seasonYear: string) => {
+    form.setValue("seasonYear", seasonYear);
     form.handleSubmit((v) => submitMutation.mutate(v))();
   };
 
@@ -54,7 +54,7 @@ const SelectSeasonForm = (props: TSelectSeasonForm) => {
       >
         <FormField
           control={form.control}
-          name="seasonId"
+          name="seasonYear"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Season</FormLabel>
@@ -69,7 +69,7 @@ const SelectSeasonForm = (props: TSelectSeasonForm) => {
                 </FormControl>
                 <SelectContent>
                   {seasons.map((season) => (
-                    <SelectItem key={season.id} value={season.id}>
+                    <SelectItem key={season.id} value={season.year}>
                       {season.year}
                     </SelectItem>
                   ))}

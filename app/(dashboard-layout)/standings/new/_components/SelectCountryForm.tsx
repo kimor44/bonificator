@@ -31,6 +31,7 @@ export type TSelectCountryForm = {
   countries: TCountry[];
   handleLeagues: (leagues: TLeaguesFromCountryId) => void;
   handleSeasons: (seasons: TSeasonsFromLeagueId) => void;
+  handleYear: (year: string) => void;
 };
 
 const SelectCountryForm = (props: TSelectCountryForm) => {
@@ -47,6 +48,7 @@ const SelectCountryForm = (props: TSelectCountryForm) => {
 
       props.handleLeagues(leagues);
       props.handleSeasons([]);
+      props.handleYear("");
     },
   });
 
