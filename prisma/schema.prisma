@@ -158,6 +158,7 @@ model Standing {
   for       Int
   against   Int
   form      String? @db.VarChar(5)
+  year      String  @db.VarChar(4)
   isBonified Boolean @default(false) @map("is_bonified")
 
   createdAt DateTime @default(now())
