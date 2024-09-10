@@ -31,6 +31,45 @@ export const selectSeasonFormSchema = z.object({
 
 export type SelectSeasonFormSchema = z.infer<typeof selectSeasonFormSchema>;
 
+export const createStandingFormSchema = z.object({
+  year: z.string(),
+  leagueId: z.string(),
+});
+
+type TTeamFromRapidId = {
+  id: string;
+  name: string;
+  logo: string | null;
+};
+
+type TGoals = {
+  for: number;
+  against: number;
+};
+
+type TResults = {
+  played: number;
+  win: number;
+  draw: number;
+  lose: number;
+  goals: TGoals;
+};
+
+export type TStandingFromRapidId = {
+  rank: number;
+  team: TTeamFromRapidId;
+  points: number;
+  goalsDiff: number;
+  group: string;
+  form: string;
+  status: string;
+  description: string;
+  all: TResults;
+  home: TResults;
+  away: TResults;
+  update: string;
+};
+
 // export const StandingFormSchema = z.object({
 //   seasonId: z.string(),
 //   rank: z.number().int(),

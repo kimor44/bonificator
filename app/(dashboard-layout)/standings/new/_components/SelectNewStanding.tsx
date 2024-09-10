@@ -1,17 +1,19 @@
 "use client";
 
+import { ProviderConfirmationDialog } from "@/features/dialogs-provider/DialogProviderDialog";
+import { LayoutContent } from "@/features/page/layout";
+import { waiting } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { SelectCountryForm } from "./SelectCountryForm";
+import { SelectLeagueForm } from "./SelectLeagueForm";
+import { SelectSeasonForm } from "./SelectSeasonForm";
+import { createStandingAction } from "./standing-new.action";
 import type {
   TLeaguesFromCountryId,
   TSeasonsFromLeagueId,
 } from "./standing-new.schema";
-import { SelectLeagueForm } from "./SelectLeagueForm";
-import { SelectSeasonForm } from "./SelectSeasonForm";
-import { LayoutContent } from "@/features/page/layout";
-import { ProviderConfirmationDialog } from "@/features/dialogs-provider/DialogProviderDialog";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export type TCountry = {
   id: string;
@@ -28,6 +30,7 @@ export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
   const [seasons, setSeasons] = useState<TSeasonsFromLeagueId>([]);
   const [year, setYear] = useState<string>();
   const [leagueRapidId, setLeagueRapidId] = useState<string>();
+  const [pending, setPending] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -47,12 +50,16 @@ export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
     setLeagueRapidId(rapidId);
   };
 
-  const onConfirmNewStanding = () => {
+  const onConfirmNewStanding = async () => {
+    setPending(true);
+    await waiting(1000);
+    createStandingAction({ year: year, leagueId: leagueRapidId });
     setLeagues([]);
     setSeasons([]);
     setYear("");
     toast.success("New standing created");
     router.push("/standings");
+    setPending(false);
   };
 
   return (
@@ -93,6 +100,7 @@ export const SelectNewStanding = ({ countries }: TSelectCountryForm) => {
             },
           }}
           description={`Are you sure you want to create the ${leagues.find((l) => l.rapidId === leagueRapidId)?.name} ${year} season standings?`}
+          loading={pending}
         />
       )}
     </>
